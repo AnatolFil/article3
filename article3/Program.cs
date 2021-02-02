@@ -112,25 +112,25 @@ namespace article3
         private class stackElement<T>
         {
             public T value;
-            public int next;
+            public uint next;
         }
         private class stackInfo
         {
-            public int lenght;
-            public int capisity;
-            public int last;
+            public uint lenght;
+            public uint capisity;
+            public uint last;
         }
-        private int countOfStacks;
-        private int totalLenght;
-        public int TotalLenght
+        private uint countOfStacks;
+        private uint totalLenght;
+        public uint TotalLenght
         {
             get { return totalLenght; }
         }
-        private int totalCapisity;
+        private uint totalCapisity;
         private stackInfo[] info;
         private stackElement<T>[] mas;
-        private int defaultSize = 100;
-        public multiStack(int count)
+        private uint defaultSize = 100;
+        public multiStack(uint count)
         {
             info = new stackInfo[count];
             mas = new stackElement<T>[count * defaultSize];
@@ -144,9 +144,9 @@ namespace article3
                 info[i].lenght = 0;
             }
         }
-        public void push(int stack, T value)
+        public void push(uint stack, T value)
         {
-            if(stack <= countOfStacks)
+            if(stack < countOfStacks)
             {
                 stackElement<T> newEl = new stackElement<T>();
                 newEl.value = value;
@@ -160,18 +160,20 @@ namespace article3
                     mas = newMas;
                     totalCapisity = totalCapisity * 2;
                 }
-                int place = -1;
-                for (int i = info[stack].last; i < totalCapisity; i++)
+                bool findPlace = false;
+                uint place = 0;
+                for (uint i = info[stack].last; i < totalCapisity; i++)
                 {
                     if (mas[i] == null)
                     {
+                        findPlace = true;
                         place = i;
                         break;
                     }
                 }
-                if (place == -1)
+                if (findPlace == false)
                 {
-                    for (int i = 0; i < info[stack].last; i++)
+                    for (uint i = 0; i < info[stack].last; i++)
                     {
                         if (mas[i] == null)
                         {
@@ -187,9 +189,19 @@ namespace article3
                 totalLenght++;
             }
         }
-        public void pop(int stack)
+        public void pop(uint stack)
         {
-
+            if(stack < countOfStacks)
+            {
+                if(info[stack].lenght > 0)
+                {
+                    uint tmp = mas[info[stack].last].next;
+                    mas[info[stack].last] = null;
+                    info[stack].last = tmp;
+                    info[stack].lenght--;
+                    totalLenght--;
+                }
+            }//here it would be great to add cleaning memory
         }
     }
 

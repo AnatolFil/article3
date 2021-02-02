@@ -79,15 +79,37 @@ namespace NUnitTestArticle3
         [Test]
         public void TestPushForMultiStack()
         {
-            int countOfStacks = 5;
-            int countOfElements = 350;
+            uint countOfStacks = 20;
+            int countOfElements = 100000000;
             multiStack<int> multiSt = new multiStack<int>(countOfStacks);
             Random rand = new Random(DateTime.Now.Millisecond);
             for(int i=0;i<countOfElements;i++)
             {
-                multiSt.push(rand.Next(0, countOfStacks), rand.Next());
+                multiSt.push((uint) rand.Next(0,(int)countOfStacks), rand.Next());
             }
             Assert.AreEqual(countOfElements, multiSt.TotalLenght);
+        }
+        [Test]
+        public void TestPopForMultiStack()
+        {
+            uint countOfStacks = 20;
+            int countOfElements = 10000000;
+            multiStack<int> multiSt = new multiStack<int>(countOfStacks);
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < countOfElements; i++)
+            {
+                multiSt.push((uint)rand.Next(0, (int)countOfStacks), rand.Next());
+            }
+            for(int i=0;i<countOfStacks;i++)
+            {
+                for (int j = 0; j < countOfElements; j++)
+                {
+                    int k = i % (int)countOfStacks;
+                    multiSt.pop((uint)(k));
+                }
+            }
+            
+            Assert.AreEqual(0, multiSt.TotalLenght);
         }
     }
 }
