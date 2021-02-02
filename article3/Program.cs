@@ -107,4 +107,90 @@ namespace article3
             return res;
         }
     }
+    public class multiStack<T>
+    {
+        private class stackElement<T>
+        {
+            public T value;
+            public int next;
+        }
+        private class stackInfo
+        {
+            public int lenght;
+            public int capisity;
+            public int last;
+        }
+        private int countOfStacks;
+        private int totalLenght;
+        public int TotalLenght
+        {
+            get { return totalLenght; }
+        }
+        private int totalCapisity;
+        private stackInfo[] info;
+        private stackElement<T>[] mas;
+        private int defaultSize = 100;
+        public multiStack(int count)
+        {
+            info = new stackInfo[count];
+            mas = new stackElement<T>[count * defaultSize];
+            countOfStacks = count;
+            totalCapisity = count * defaultSize;
+            for (int i=0;i<count;i++)
+            {
+                info[i] = new stackInfo();
+                info[i].capisity = defaultSize;
+                info[i].last = 0;
+                info[i].lenght = 0;
+            }
+        }
+        public void push(int stack, T value)
+        {
+            if(stack <= countOfStacks)
+            {
+                stackElement<T> newEl = new stackElement<T>();
+                newEl.value = value;
+                if(totalLenght >= totalCapisity)
+                {
+                    stackElement<T>[] newMas = new stackElement<T>[totalCapisity * 2];
+                    for (int i = 0; i < totalCapisity; i++)
+                    {
+                        newMas[i] = mas[i];
+                    }
+                    mas = newMas;
+                    totalCapisity = totalCapisity * 2;
+                }
+                int place = -1;
+                for (int i = info[stack].last; i < totalCapisity; i++)
+                {
+                    if (mas[i] == null)
+                    {
+                        place = i;
+                        break;
+                    }
+                }
+                if (place == -1)
+                {
+                    for (int i = 0; i < info[stack].last; i++)
+                    {
+                        if (mas[i] == null)
+                        {
+                            place = i;
+                            break;
+                        }
+                    }
+                }
+                mas[place] = newEl;
+                newEl.next = info[stack].last;
+                info[stack].last = place;
+                info[stack].lenght++;
+                totalLenght++;
+            }
+        }
+        public void pop(int stack)
+        {
+
+        }
+    }
+
 }

@@ -76,5 +76,18 @@ namespace NUnitTestArticle3
                 Assert.AreEqual(i, fifo.remove());
             }
         }
+        [Test]
+        public void TestPushForMultiStack()
+        {
+            int countOfStacks = 5;
+            int countOfElements = 350;
+            multiStack<int> multiSt = new multiStack<int>(countOfStacks);
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for(int i=0;i<countOfElements;i++)
+            {
+                multiSt.push(rand.Next(0, countOfStacks), rand.Next());
+            }
+            Assert.AreEqual(countOfElements, multiSt.TotalLenght);
+        }
     }
 }
