@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace article3
 {
@@ -9,22 +10,35 @@ namespace article3
 
         }
     }
-    public class stackElement<T>
+    public class stackElement<T> where T : IComparable<T>
     {
         public T value;
         public stackElement<T> next;
-        //public stackElement<T> prev;
+        private IComparer<T> comparer;
+        public stackElement(IComparer<T> defaultComparer)
+        {
+            if (defaultComparer == null) throw new ArgumentNullException();
+            comparer = defaultComparer;
+        }
+        public stackElement() : this(Comparer<T>.Default) { }
     }
-    public class myStack<T>
+    public class myStack<T> where T : IComparable<T>
     {
         private int lenght;
         public stackElement<T> first;
         public stackElement<T> last;
+        private stackElement<T> min;
+        public stackElement<T> Min
+        {
+            get { return min; }
+        }
+        
         public myStack()
         {
             lenght = 0;
             first = null;
             last = null;
+            min = new stackElement<T>();
         }
         public int Lenght
         {
@@ -37,12 +51,19 @@ namespace article3
             if (lenght == 0)
             {
                 newEl.next = null;
-                //newEl.prev = null;
                 first = newEl;
+                min.value = newEl.value;
             }
             else
             {
                 newEl.next = last;
+                if (newElement.CompareTo(min.value) < 0 || newElement.CompareTo(min.value) == 0)
+                {
+                    stackElement<T> newMin = new stackElement<T>(); 
+                    newMin.value = newEl.value;
+                    newMin.next = min;
+                    min = newMin;
+                }   
             }
             last = newEl;
             lenght++;
@@ -52,6 +73,10 @@ namespace article3
             T res = default(T);
             if (lenght > 0)
             {
+                if (min.value.CompareTo(last.value) == 0 && min.next != null)
+                {
+                    min = min.next;
+                }   
                 res = last.value;
                 last = last.next;
                 lenght--;

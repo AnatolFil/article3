@@ -16,7 +16,7 @@ namespace NUnitTestArticle3
         public void TestPushForMyStack()
         {
             Random rand = new Random(DateTime.Now.Millisecond);
-            int lenght = 100000000;
+            int lenght = 100000;
             myStack<int> stack = new myStack<int>();
             for(int i = 0;i<lenght;i++)
             {
@@ -39,7 +39,7 @@ namespace NUnitTestArticle3
         [Test]
         public void TestPopForMyStack()
         {
-            int lenght = 100000000;
+            int lenght = 100000;
             Stack<int> stack = new Stack<int>();
             for (int i = 0; i < lenght; i++)
             {
@@ -49,12 +49,16 @@ namespace NUnitTestArticle3
             {
                 Assert.AreEqual(i, stack.Pop());
             }
+            stack.Push(1);
+            Assert.AreEqual(1, stack.Count);
+            stack.Pop();
+            Assert.AreEqual(0, stack.Count);
         }
         [Test]
         public void TestAddForMyFIFO()
         {
             Random rand = new Random(DateTime.Now.Millisecond);
-            int lenght = 100000000;
+            int lenght = 100000;
             myFIFO<int> fifo = new myFIFO<int>();
             for (int i = 0; i < lenght; i++)
             {
@@ -65,7 +69,7 @@ namespace NUnitTestArticle3
         [Test]
         public void TestRemoveForMyFIFO()
         {
-            int lenght = 100000000;
+            int lenght = 1000000;
             myFIFO<int> fifo = new myFIFO<int>();
             for (int i = 0; i < lenght; i++)
             {
@@ -80,7 +84,7 @@ namespace NUnitTestArticle3
         public void TestPushForMultiStack()
         {
             uint countOfStacks = 20;
-            int countOfElements = 100000000;
+            int countOfElements = 100000;
             multiStack<int> multiSt = new multiStack<int>(countOfStacks);
             Random rand = new Random(DateTime.Now.Millisecond);
             for(int i=0;i<countOfElements;i++)
@@ -110,6 +114,34 @@ namespace NUnitTestArticle3
             }
             
             Assert.AreEqual(0, multiSt.TotalLenght);
+        }
+        [Test]
+        public void TestMinForMyStack()
+        {
+            int countOfElements = 1000;
+            myStack<int> st = new myStack<int>();
+            Random rand = new Random(DateTime.Now.Millisecond);
+            st.push(0);
+            for (int i = 0; i < countOfElements; i++)
+            {
+                st.push(i);
+            }
+            st.push(-1);
+            st.push(-1);
+            for (int i = 0; i < countOfElements; i++)
+            {
+                st.push(rand.Next(0, 100000000));
+            }
+            for (int i = 0; i < countOfElements-1; i++)
+            {
+                st.pop();
+            }
+            Assert.AreEqual(-1, st.Min.value);
+            for (int i = 0; i < countOfElements; i++)
+            {
+                st.pop();
+            }
+            Assert.AreEqual(0, st.Min.value);
         }
     }
 }
