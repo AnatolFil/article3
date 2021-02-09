@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace article3
@@ -229,5 +230,108 @@ namespace article3
             }//here it would be great to add cleaning memory
         }
     }
+    public class setOfStack<T> where T : IComparable<T>
+    {
+        private uint defaultLenght;
+        private uint countOfStacks;
+        public uint CountOfStacks
+        {
+            get { return countOfStacks; }
+        }
+        private myStack<T>[] mas;
+        private Hashtable currentStack;
+        private uint totalLenght;
+        public uint TotalLenght
+        {
+            get { return totalLenght; }
+        }
 
+        public setOfStack()
+        {
+            defaultLenght = 100;
+            countOfStacks = 1;
+            mas = new myStack<T>[1];
+            currentStack = new Hashtable();
+            mas[0] = new myStack<T>();
+            totalLenght = 0;
+        }
+        public void push(T value)
+        {
+            if(currentStack.Count == 0)
+            {
+                if (totalLenght == defaultLenght * countOfStacks)
+                {
+                    myStack<T>[] newMas = new myStack<T>[countOfStacks + 1];
+                    for (int i = 0; i < countOfStacks; i++)
+                    {
+                        newMas[i] = mas[i];
+                    }
+                    mas = newMas;
+                    mas[countOfStacks] = new myStack<T>();
+                    countOfStacks++;
+                }
+                mas[countOfStacks - 1].push(value);
+            }
+            else
+            {
+                foreach(var key in currentStack.Keys)
+                {
+                    uint index = (uint)currentStack[key];
+                    mas[index].push(value);
+                    if (mas[index].Lenght == defaultLenght)
+                        currentStack.Remove(key);
+                    break;
+                }
+            }
+            totalLenght++;
+        }
+        public T pop()
+        {
+            T res = default(T);
+            if(totalLenght > 0 && mas[countOfStacks - 1].Lenght > 0)
+            {
+                res = mas[countOfStacks - 1].pop();
+                totalLenght--;
+                if (mas[countOfStacks - 1].Lenght == 0)
+                {
+                    if (countOfStacks > 1)
+                    {
+                        mas[countOfStacks - 1] = null;
+                        countOfStacks--;
+                    }
+                }
+            }
+            return res;
+        }
+        private void clean(uint index)
+        {
+            for (uint i = index; i < countOfStacks - 1; i++)
+            {
+                mas[i] = mas[i + 1];
+            }
+            if (countOfStacks > 1)
+            {
+                mas[countOfStacks - 1] = null;
+                countOfStacks--;
+            }
+        }
+        public T popAt(uint index)
+        {
+            T res = default(T);
+            if(index < countOfStacks && mas[index].Lenght > 0)
+            {
+                if (!currentStack.Contains(index) && index > 0)
+                    currentStack.Add(index, index);
+                res = mas[index].pop();
+                totalLenght--;
+                if (mas[index].Lenght == 0 && !(index == countOfStacks - 1))
+                {
+                    clean(index);
+                }
+                if (currentStack.Contains(index))
+                    currentStack.Remove(index);
+            }
+            return res;
+        }
+    }
 }
