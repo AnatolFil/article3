@@ -253,5 +253,30 @@ namespace NUnitTestArticle3
             Assert.IsTrue(set.CountOfStacks >= 1);
             Assert.IsTrue(set.TotalLenght >= 0);
         }
+        [Test]
+        public void TestMyStackQueue()
+        {
+            int countOfElements = 100000;
+            myStackQueue<int> queue = new myStackQueue<int>();
+            for (int i = 0; i < countOfElements; i++)
+            {
+                queue.add(i);
+            }
+            Assert.AreEqual(countOfElements, queue.TotalLenght);
+            for (int i = 0; i < countOfElements; i++)
+            {
+                queue.remove();
+            }
+            Assert.AreEqual(0, queue.TotalLenght);
+            for(int i = 0; i < countOfElements; i++)
+            {
+                queue.add(i);
+            }
+            for (int i = 0; i < countOfElements; i++)
+            {
+                Assert.AreEqual(i, queue.remove());
+            }
+            Assert.AreEqual(0, queue.TotalLenght);
+        }
     }
 }

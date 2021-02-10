@@ -334,4 +334,50 @@ namespace article3
             return res;
         }
     }
+    public class myStackQueue<T> where T : IComparable<T>
+    {
+        private myStack<T> stack1;
+        private myStack<T> stack2;
+        private myStack<T> currentStack;
+        private uint totalLenght;
+        public uint TotalLenght
+        {
+            get { return totalLenght; }
+        }
+        private bool isPop;
+        private bool isPush;
+        public myStackQueue()
+        {
+            stack1 = new myStack<T>();
+            stack2 = new myStack<T>();
+            totalLenght = 0;
+            currentStack = stack1;
+            //changeStack = false;
+        }
+        public void add(T value)
+        {
+            if (stack1.Lenght == 0)
+            {
+                while (stack2.Lenght != 0)
+                    stack1.push(stack2.pop());
+            }
+            stack1.push(value);
+            totalLenght++;
+        }
+        public T remove()
+        {
+            T res = default(T);
+            if(totalLenght > 0)
+            {
+                if(stack2.Lenght == 0)
+                {
+                    while (stack1.Lenght != 0)
+                        stack2.push(stack1.pop());
+                }
+                res = stack2.pop();
+                totalLenght--;
+            }
+            return res;
+        }
+    }
 }
