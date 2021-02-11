@@ -33,7 +33,6 @@ namespace article3
         {
             get { return min; }
         }
-        
         public myStack()
         {
             lenght = 0;
@@ -83,6 +82,64 @@ namespace article3
                 lenght--;
             }
             return res;
+        }
+        public T peek()
+        {
+            return last.value;
+        }
+        public void sortWithStack()
+        {
+            if (this.lenght > 1)
+            {
+                myStack<T> stack = new myStack<T>();
+                T max1 = default(T);
+                T max2 = default(T);
+                int curLen = this.lenght;
+                int lenOfStack = curLen;
+                int cycles = curLen / 2;
+                for (int i = 0; i < cycles; i++)
+                {
+                    max1 = this.pop();
+                    while ((curLen - lenOfStack) != this.lenght)
+                    {
+                        //if ((curLen - lenOfStack) == this.lenght)
+                        //    break;
+                        T tmp = this.peek();
+                        if (tmp.CompareTo(max1) > 0)
+                        {
+                            stack.push(max1);
+                            max1 = this.pop();
+                        }
+                        else
+                        {
+                            stack.push(this.pop());
+                        }
+                    }
+                    if (i != 0)
+                        this.push(max2);
+                    this.push(max1);
+                    lenOfStack = stack.lenght;
+                    if(lenOfStack > 1)
+                    {
+                        max2 = stack.pop();
+                        while (stack.lenght != 0)
+                        {
+                            T tmp = stack.peek();
+                            if (tmp.CompareTo(max2) > 0)
+                            {
+                                this.push(max2);
+                                max2 = stack.pop();
+                            }
+                            else
+                            {
+                                this.push(stack.pop());
+                            }
+                        }
+                    }else if(lenOfStack == 1)
+                        this.push(stack.pop());
+                }
+                //this.push(max2);
+            }
         }
     }
     public class fifoElement<T>

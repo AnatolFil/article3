@@ -278,5 +278,24 @@ namespace NUnitTestArticle3
             }
             Assert.AreEqual(0, queue.TotalLenght);
         }
+        [Test]
+        public void TestSortWithStackForMyStack()
+        {
+            int countOfElements = 3;
+            myStack<int> stack = new myStack<int>();
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < countOfElements; i++)
+            {
+               stack.push(rand.Next(0,9));
+            }
+            stack.sortWithStack();
+            int el = stack.pop();
+            for (int i = 0; i < countOfElements-1; i++)
+            {
+                int tmp = stack.pop();
+                Assert.IsTrue(tmp>=el);
+                el = tmp;
+            }
+        }
     }
 }
