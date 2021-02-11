@@ -281,21 +281,26 @@ namespace NUnitTestArticle3
         [Test]
         public void TestSortWithStackForMyStack()
         {
-            int countOfElements = 3;
-            myStack<int> stack = new myStack<int>();
             Random rand = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; i < countOfElements; i++)
+            for(int j=0;j<100;j++)
             {
-               stack.push(rand.Next(0,9));
+                int countOfElements = rand.Next(0, 10000);
+                myStack<int> stack = new myStack<int>();
+
+                for (int i = 0; i < countOfElements; i++)
+                {
+                    stack.push(rand.Next(0, 9));
+                }
+                stack.sortWithStack();
+                int el = stack.pop();
+                for (int i = 0; i < countOfElements - 1; i++)
+                {
+                    int tmp = stack.pop();
+                    Assert.IsTrue(tmp >= el);
+                    el = tmp;
+                }
             }
-            stack.sortWithStack();
-            int el = stack.pop();
-            for (int i = 0; i < countOfElements-1; i++)
-            {
-                int tmp = stack.pop();
-                Assert.IsTrue(tmp>=el);
-                el = tmp;
-            }
+            
         }
     }
 }

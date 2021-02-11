@@ -96,14 +96,16 @@ namespace article3
                 T max2 = default(T);
                 int curLen = this.lenght;
                 int lenOfStack = curLen;
-                int cycles = curLen / 2;
+                int cycles = 0;
+                if (curLen % 2 > 0)
+                    cycles = curLen / 2 + 1;
+                else
+                    cycles = curLen / 2;
                 for (int i = 0; i < cycles; i++)
                 {
                     max1 = this.pop();
                     while ((curLen - lenOfStack) != this.lenght)
                     {
-                        //if ((curLen - lenOfStack) == this.lenght)
-                        //    break;
                         T tmp = this.peek();
                         if (tmp.CompareTo(max1) > 0)
                         {
@@ -138,7 +140,19 @@ namespace article3
                     }else if(lenOfStack == 1)
                         this.push(stack.pop());
                 }
-                //this.push(max2);
+            }
+        }
+        public void sortWithStackShortRelease()
+        {
+            if(lenght > 1)
+            {
+                myStack<T> stack = new myStack<T>();
+                T tmp = default(T);
+                stack.push(this.pop());
+                while(this.lenght != 0)
+                {
+
+                }
             }
         }
     }
