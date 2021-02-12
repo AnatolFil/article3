@@ -282,9 +282,9 @@ namespace NUnitTestArticle3
         public void TestSortWithStackForMyStack()
         {
             Random rand = new Random(DateTime.Now.Millisecond);
-            for(int j=0;j<100;j++)
+            for(int j=0;j<1;j++)
             {
-                int countOfElements = rand.Next(0, 10000);
+                int countOfElements = 100000;//rand.Next(0, 10000);
                 myStack<int> stack = new myStack<int>();
 
                 for (int i = 0; i < countOfElements; i++)
@@ -300,7 +300,29 @@ namespace NUnitTestArticle3
                     el = tmp;
                 }
             }
-            
+        }
+        [Test]
+        public void TestSortWithStackShortReleaseForMyStack()
+        {
+            Random rand = new Random(DateTime.Now.Millisecond);
+            for (int j = 0; j < 1; j++)
+            {
+                int countOfElements = 10000;//rand.Next(0, 10000);
+                myStack<int> stack = new myStack<int>();
+
+                for (int i = 0; i < countOfElements; i++)
+                {
+                    stack.push(rand.Next(0, 9));
+                }
+                stack = stack.sortWithStackShortRelease();
+                int el = stack.pop();
+                for (int i = 0; i < countOfElements - 1; i++)
+                {
+                    int tmp = stack.pop();
+                    Assert.IsTrue(tmp >= el);
+                    el = tmp;
+                }
+            }
         }
     }
 }

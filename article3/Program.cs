@@ -142,18 +142,24 @@ namespace article3
                 }
             }
         }
-        public void sortWithStackShortRelease()
+        public myStack<T> sortWithStackShortRelease()
         {
+            myStack < T > stack = null;
             if(lenght > 1)
             {
-                myStack<T> stack = new myStack<T>();
+                stack = new myStack<T>();
                 T tmp = default(T);
-                stack.push(this.pop());
                 while(this.lenght != 0)
                 {
-
+                    tmp = this.pop();
+                    while (stack.lenght != 0 && tmp.CompareTo(stack.peek())>0)
+                    {
+                        this.push(stack.pop());
+                    }
+                    stack.push(tmp);
                 }
             }
+            return stack;
         }
     }
     public class fifoElement<T>
