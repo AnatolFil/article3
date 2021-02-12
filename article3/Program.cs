@@ -457,4 +457,86 @@ namespace article3
             return res;
         }
     }
+    public class pet
+    {
+        public string name;
+        public uint age;
+    }
+    public class dog: pet
+    {
+       public dog(uint _age, string _name = "dogName")
+        {
+            name = _name;
+            age = _age;
+        }
+    }
+    public class cat : pet
+    {
+       public cat(uint _age, string _name = "catName")
+        {
+            name = _name;
+            age = _age;
+        }
+    }
+    public class animalQueue
+    {
+        private LinkedList<pet> list;
+        public animalQueue()
+        {
+            list = new LinkedList<pet>();
+        }
+        public int totalLenght()
+        {
+            return list.Count;
+        }
+        public void enqueue(pet animal)
+        {
+            list.AddFirst(animal);
+        }
+        public dog dequeueDog()
+        {
+            LinkedListNode<pet> last = list.Last;
+            while (last != list.First)
+            {
+                string typeName = last.Value.GetType().Name;
+                if (typeof(dog).Name == typeName)
+                    break;
+                last = last.Previous;
+            }
+            if (last.Value.GetType() != typeof(dog))
+                return null;
+            else
+            {
+                dog lastDog = (dog) last.Value;
+                list.Remove(last);
+                return lastDog;
+            }
+        }
+        public cat dequeueCat()
+        {
+            LinkedListNode<pet> last = list.Last;
+            while (last != list.First)
+            {
+                string typeName = last.Value.GetType().Name;
+                if (typeof(cat).Name == typeName)
+                    break;
+                last = last.Previous;
+            }
+            if (last.Value.GetType() != typeof(cat))
+                return null;
+            else
+            {
+                cat lastCat = (cat)last.Value;
+                list.Remove(last);
+                return lastCat;
+            }
+        }
+        public pet dequeueAny()
+        {
+
+            pet last = list.Last.Value;
+            list.RemoveLast();
+            return last;
+        }
+    }
 }

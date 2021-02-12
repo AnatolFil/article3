@@ -324,5 +324,33 @@ namespace NUnitTestArticle3
                 }
             }
         }
+        [Test]
+        public void TestAnimalQueue()
+        {
+            animalQueue q = new animalQueue();
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int countOfEl = 100;
+            for(int i=0;i<countOfEl;i++)
+            {
+                if(rand.Next(0,10)>5)
+                {
+                    cat newCat = new cat((uint)i);
+                    q.enqueue(newCat);
+                }
+                else
+                {
+                    dog newDog = new dog((uint)i);
+                    q.enqueue(newDog);
+                }
+            }
+            Assert.AreEqual(countOfEl, q.totalLenght());
+            dog lastDog = q.dequeueDog();
+            if(lastDog != null)
+                Assert.AreEqual(typeof(dog), lastDog.GetType());
+            cat lastCat = q.dequeueCat();
+            if(lastCat != null)
+                Assert.AreEqual(typeof(cat), lastCat.GetType());
+            Assert.AreEqual(countOfEl-2, q.totalLenght());
+        }
     }
 }
